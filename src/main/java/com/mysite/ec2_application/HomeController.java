@@ -3,6 +3,7 @@ package com.mysite.ec2_application;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +27,12 @@ import software.amazon.awssdk.services.s3.model.Bucket;
 public class HomeController {
 	private final S3Client s3Client;
 
+	@Value("${custom.secretWord}")
+	private String secretWord;
+
 	@GetMapping("/")
 	public String home() {
-		return "Hello World!";
+		return "secretWord : " + secretWord;
 	}
 
 	@GetMapping("/buckets")
