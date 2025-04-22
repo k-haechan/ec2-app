@@ -1,9 +1,14 @@
 package com.mysite.ec2_application;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.Bucket;
 
 /**
  * PackageName : com.mysite.ec2_application
@@ -19,20 +24,20 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class HomeController {
-	// private final S3Client s3Client;
+	private final S3Client s3Client;
 
 	@GetMapping("/")
 	public String home() {
 		return "Hello World!";
 	}
 
-	// @GetMapping("/buckets")
-	// public List<String> listAllBuckets() {
-	// 	return s3Client
-	// 		.listBuckets()
-	// 		.buckets()
-	// 		.stream()
-	// 		.map(Bucket::name)
-	// 		.collect(Collectors.toList());
-	// }
+	@GetMapping("/buckets")
+	public List<String> listAllBuckets() {
+		return s3Client
+			.listBuckets()
+			.buckets()
+			.stream()
+			.map(Bucket::name)
+			.collect(Collectors.toList());
+	}
 }
